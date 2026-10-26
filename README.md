@@ -2,7 +2,7 @@
 
 <div align="center">
 
-# 🎬 [WATCH THE 5-MINUTE OFFICIAL DEMO & PRESENTATION VIDEO (LOOM)](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
+# 🎬 [WATCH THE DEMO & PRESENTATION VIDEO (LOOM)](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
 
 [![Watch 5-Minute Video Presentation on Loom](https://img.shields.io/badge/▶%20WATCH%20VIDEO%20DEMO-Loom%20(5%20Min%20Official%20Walkthrough)-00C853?style=for-the-badge&logo=loom&logoColor=white)](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
 
@@ -23,10 +23,10 @@
 
 ---
 
-## 🎥 5-Minute Official Video Presentation & Live Demonstration
+## 🎥  Video Presentation & Live Demonstration
 
 > [!IMPORTANT]
-> ### 📺 [CLICK HERE TO PLAY THE 5-MINUTE OFFICIAL DEMONSTRATION ON LOOM](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
+> ### 📺 [CLICK HERE TO PLAY THE DEMONSTRATION ON LOOM](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
 > **Direct Link**: **[`https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d`](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)**  
 > 
 > **Evaluation Highlights demonstrated live in the video**:
@@ -43,7 +43,7 @@ This cybersecurity platform and verified banking target infrastructure were engi
 
 | No. | Full Name | Institutional ID | Engineering Role & Specialization |
 | :---: | :--- | :---: | :--- |
-| **1** | **Musab Hassen Aliyi** | **CTC-384-26** | **Lead System Architect & Project Coordinator**<br>Full-stack architectural design, multi-tenant governance, cloud orchestration, and integration telemetry. |
+| **1** | **Musab Hassen Aliyi** | **CTC-3842-26** | **Lead System Architect & Project Coordinator**<br>Full-stack architectural design, multi-tenant governance, cloud orchestration, and integration telemetry. |
 | **2** | **Osman Mohammed Seid** | **CTC-2974-26** | **Lead Detection Engine & Threat Intelligence Engineer**<br>Declarative detection hierarchy (L1–L4 rules-as-data), velocity threshold baselines, and threat dossier synthesis. |
 | **3** | **Kedist Eyasu Embaye** | **CTC-1247-26** | **Security Telemetry & Cryptographic Verification Engineer**<br>Edge telemetry ingestion, HMAC-SHA256 canonical signature pipeline, and Merkle hash-sealed audit trail. |
 | **4** | **Yoseph Abebe Ersedo** | **CTC-430-26** | **SOC Operations & Frontend Visualization Engineer**<br>High-contrast institutional SOC console, Web Audio situational threat sirens, and responsive UI/UX workflows. |
