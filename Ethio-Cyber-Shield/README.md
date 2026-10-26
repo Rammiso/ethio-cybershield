@@ -37,6 +37,7 @@ This cybersecurity platform was engineered and submitted to **INSA** by:
 > Planned additions to this MVP include Graph Neural Networks (GNNs) for inter-bank transaction mule rings, unsupervised Autoencoder anomaly detection, and a local Sovereign LLM Copilot for Amharic/English incident reporting.  
 > 📖 See: **[`../FULL_PROJECT_VISION_AND_AI_ROADMAP.md`](../FULL_PROJECT_VISION_AND_AI_ROADMAP.md)**  
 
+
 ---
 
 ## 1. Executive Summary
