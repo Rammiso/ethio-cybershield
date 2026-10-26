@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" fill="none">
+  <defs>
+    <linearGradient id="sbShieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#10b981" />
+      <stop offset="100%" stop-color="#047857" />
+    </linearGradient>
+    <linearGradient id="sbPillars" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#ecfdf5" />
+    </linearGradient>
+  </defs>
+  <!-- Outer Shield Badge -->
+  <path d="M32 4L10 14v18c0 14.5 9.4 28 22 32 12.6-4 22-17.5 22-32V14L32 4z" fill="url(#sbShieldGrad)" />
+  <!-- Inner Subtle Inset -->
+  <path d="M32 8L14 16v16c0 12.2 7.7 23.5 18 27 10.3-3.5 18-14.8 18-27V16L32 8z" fill="#065f46" opacity="0.35" />
+  <!-- Bank Pediment / Roof -->
+  <polygon points="32,18 19,25 45,25" fill="url(#sbPillars)" />
+  <!-- Architrave -->
+  <rect x="21" y="26" width="22" height="2.5" rx="0.5" fill="url(#sbPillars)" />
+  <!-- Bank Columns (3 pillars) -->
+  <rect x="23" y="30" width="3.5" height="11" rx="0.5" fill="url(#sbPillars)" />
+  <rect x="30.25" y="30" width="3.5" height="11" rx="0.5" fill="url(#sbPillars)" />
+  <rect x="37.5" y="30" width="3.5" height="11" rx="0.5" fill="url(#sbPillars)" />
+  <!-- Bank Base / Foundation -->
+  <rect x="20" y="42" width="24" height="3" rx="0.5" fill="url(#sbPillars)" />
+</svg>

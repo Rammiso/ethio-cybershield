@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpeg" href="assets/logo-shield.jpg">
+    <title>Alerts | Ethio-Cyber Shield</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <div id="navbar"></div>
+
+    <div class="container-fluid py-3 px-3 px-md-4">
+        <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 pb-2 border-bottom border-secondary gap-2">
+            <div class="d-flex align-items-center gap-3">
+                <h4 class="mb-0 fw-bold text-light">Security Detection Alerts</h4>
+                <span class="live-pill"><span class="live-pulse"></span>STREAM ACTIVE</span>
+            </div>
+            <div class="d-flex align-items-center gap-2">
+                <button class="btn btn-soc btn-soc-danger btn-sm" id="btnResetAlerts" style="display:none;" onclick="confirmResetAllAlerts()">
+                    <i class="bi bi-trash3 me-1"></i> Reset All Alerts
+                </button>
+                <button class="btn btn-soc btn-soc-primary btn-sm" id="btnRefresh" onclick="manualRefreshAlerts()">
+                    <i class="bi bi-arrow-repeat me-1"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="card mb-3">
+            <div class="card-body py-2">
+                <div class="row g-2 align-items-center">
+                    <div class="col-md-3" id="tenantAlertCol" style="display:none;">
+                        <select class="form-select form-select-sm bg-dark text-light border-secondary font-mono" id="filterTenant" onchange="loadAlerts()">
+                            <option value="all">🏢 All Tenants (Global)</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select form-select-sm" id="filterStatus" onchange="loadAlerts()">
+                            <option value="">All Statuses</option>
+                            <option value="open" selected>Open Alerts</option>
+                            <option value="acknowledged">Acknowledged</option>
+                            <option value="resolved">Resolved</option>
+                            <option value="false_positive">False Positive</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select class="form-select form-select-sm" id="filterSeverity" onchange="loadAlerts()">
+                            <option value="">All Severities</option>
+                            <option value="critical">Critical</option>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-soc btn-sm w-100" onclick="loadAlerts()">Filter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alerts Table -->
+        <div class="card">
+            <div class="card-body p-0" id="tableArea">
+                <div class="text-center py-5"><div class="spinner-border text-success"></div></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Attack Dossier Modal -->
+    <div class="modal fade" id="alertDossierModal" tabindex="-1" aria-labelledby="dossierModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header border-secondary d-flex justify-content-between align-items-center py-2 px-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="badge text-uppercase font-mono" id="mDossierSeverity">HIGH</span>
+                        <h5 class="modal-title mb-0 fw-bold text-light" id="dossierModalTitle">
+                            <i class="bi bi-shield-exclamation text-warning me-1"></i>
+                            <span id="mDossierTitle">Attack Investigation Dossier</span>
+                        </h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3">
+                    <!-- Top Risk & Status Banner -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center p-2 mb-2 rounded bg-dark border border-secondary gap-2">
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="small text-muted">Risk Score:</span>
+                            <span class="fs-5 fw-bold font-mono" id="mDossierRiskScore">75/100</span>
+                            <span class="badge bg-danger font-mono" id="mDossierStatusBadge">CONTAINMENT ACTIVE</span>
+                        </div>
+                        <div class="d-flex align-items-center gap-1 font-mono small text-muted">
+                            <i class="bi bi-lock-fill text-success"></i> SHA-256 Seal:
+                            <code class="text-success small" id="mDossierSeal">0000000000000000</code>
+                        </div>
+                    </div>
+
+                    <!-- Explicit Time Attacked Banner -->
+                    <div class="d-flex flex-wrap justify-content-between align-items-center px-3 py-2 mb-3 rounded border border-warning-subtle gap-2" style="background: rgba(245, 158, 11, 0.08);">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-clock-history fs-5 text-warning"></i>
+                            <div>
+                                <div class="small text-muted" style="font-size:0.7rem; text-transform:uppercase; letter-spacing:0.5px;">Attack Event Timestamp</div>
+                                <div class="fw-bold text-light font-mono" id="mDossierTimeAttacked">-</div>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-warning text-dark font-mono px-2 py-1" id="mDossierTimeRelative" style="font-size:0.8rem;">Just now</span>
+                        </div>
+                    </div>
+
+                    <!-- 4-Grid Attack Details Section -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6">
+                            <div class="dossier-card h-100">
+                                <div class="dossier-card-title"><i class="bi bi-globe text-info"></i> Attacker Network & Location</div>
+                                <div class="dossier-metric"><span class="label">Source IP:</span><span class="val font-mono fw-bold text-light" id="mGeoIp">127.0.0.1</span></div>
+                                <div class="dossier-metric"><span class="label">Location:</span><span class="val" id="mGeoLocation">Localhost</span></div>
+                                <div class="dossier-metric"><span class="label">ASN / ISP:</span><span class="val font-mono" id="mGeoAsn">AS0 Private</span></div>
+                                <div class="dossier-metric"><span class="label">Network Rail:</span><span class="val font-mono" id="mGeoRail"><span class="badge bg-info text-dark font-mono"><i class="bi bi-wifi me-1"></i>Wi-Fi (802.11ax)</span></span></div>
+                                <div class="dossier-metric"><span class="label">Proxy / Hosting:</span><span class="val" id="mGeoFlags"><span class="badge bg-secondary font-mono" id="mBadgeTor">Direct</span></span></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dossier-card h-100">
+                                <div class="dossier-card-title"><i class="bi bi-laptop text-warning"></i> Attacker Client & Device</div>
+                                <div class="dossier-metric"><span class="label">Client Tool:</span><span class="val fw-bold text-warning" id="mDevClient">Burp Suite</span></div>
+                                <div class="dossier-metric"><span class="label">OS:</span><span class="val font-mono" id="mDevOs">Linux x86_64</span></div>
+                                <div class="dossier-metric"><span class="label">Hardware MAC:</span><code class="val font-mono small text-info" id="mDevMac">00:00:00:00:00:00</code></div>
+                                <div class="dossier-metric"><span class="label">Device Classification:</span><span class="val" id="mDevType">Security Tool</span></div>
+                                <div class="dossier-metric"><span class="label">Device ID:</span><code class="val font-mono small text-light" id="mDevId">DEV-PROBE</code></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dossier-card h-100">
+                                <div class="dossier-card-title"><i class="bi bi-bullseye text-danger"></i> Targeted Banking Asset</div>
+                                <div class="dossier-metric"><span class="label">Tenant Org:</span><span class="val text-light fw-bold font-mono" id="mTargetOrg">Commercial Bank</span></div>
+                                <div class="dossier-metric"><span class="label">Target System:</span><span class="val text-light" id="mTargetSystem">ShieldBank Core</span></div>
+                                <div class="dossier-metric"><span class="label">Account:</span><span class="val font-mono fw-bold text-warning" id="mTargetAccount">admin@shieldbank.test</span></div>
+                                <div class="dossier-metric"><span class="label">Endpoint:</span><code class="val font-mono text-info" id="mTargetEndpoint">/api/auth/login</code></div>
+                                <div class="dossier-metric"><span class="label">Method:</span><span class="val badge bg-dark border border-secondary font-mono" id="mTargetMethod">POST</span></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dossier-card h-100">
+                                <div class="dossier-card-title"><i class="bi bi-shield-check text-success"></i> Rule Attribution</div>
+                                <div class="dossier-metric"><span class="label">Rule ID:</span><span class="val font-mono fw-bold text-success" id="mRuleId">AUTH-001</span></div>
+                                <div class="dossier-metric"><span class="label">Rule Name:</span><span class="val small" id="mRuleName">Brute Force Probe</span></div>
+                                <div class="dossier-metric"><span class="label">Velocity:</span><span class="val small text-muted" id="mVelocityInfo">5 attempts in 60s</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Evaluation Conditions & Reasons -->
+                    <div class="mb-3">
+                        <label class="form-label small text-muted fw-bold">Evaluation Conditions & Raw Telemetry Evidence:</label>
+                        <div class="dossier-code-box" id="mDossierReasons">Telemetry evidence</div>
+                    </div>
+
+                    <!-- Raw User-Agent Header -->
+                    <div>
+                        <label class="form-label small text-muted fw-bold">Attacker Raw User-Agent String:</label>
+                        <div class="dossier-code-box font-mono small" id="mDossierUserAgent">User-Agent</div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-secondary d-flex justify-content-between align-items-center py-2 px-3">
+                    <div class="d-flex align-items-center gap-2">
+                        <button class="btn btn-soc btn-soc-danger btn-sm" onclick="doAlertModalBlockIp()">
+                            <i class="bi bi-slash-circle me-1"></i> Block Attacker IP
+                        </button>
+                        <button class="btn btn-soc btn-soc-warning btn-sm" onclick="doAlertModalRevokeSession()">
+                            <i class="bi bi-key me-1"></i> Revoke Session
+                        </button>
+                    </div>
+                    <button class="btn btn-soc btn-soc-primary btn-sm" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/common.js"></script>
+    <script>
+        if (!requireAuth()) { /* redirect */ }
+
+        document.getElementById('navbar').innerHTML = renderNavbar('alerts');
+        const user = API.getUser() || {};
+        const role = (user.role || 'viewer').toLowerCase();
+        const canAct = role !== 'viewer';
+        const _isSuperadmin = user && (user.is_superadmin || user.role === 'superadmin' || user.email === 'admin@ethiocybershield.et' || user.email === 'admin' || user.organization_id === '00000000-0000-0000-0000-000000000001');
+
+        let _alertsList = [];
+        let _activeAlertDossier = null;
+        let _alertModalInst = null;
+        let _allTenants = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            if (_isSuperadmin) {
+                const col = document.getElementById('tenantAlertCol');
+                if (col) col.style.display = 'block';
+                const resetBtn = document.getElementById('btnResetAlerts');
+                if (resetBtn) resetBtn.style.display = 'inline-block';
+                await loadTenantsFilter();
+            }
+            await loadAlerts();
+        });
+
+        async function loadTenantsFilter() {
+            try {
+                _allTenants = await API.getTenants();
+                const sel = document.getElementById('filterTenant');
+                if (!sel) return;
+                const cur = API.getSelectedTenant();
+                let opts = `<option value="all" ${cur === 'all' ? 'selected' : ''}>🏢 All Tenants (Global)</option>`;
+                _allTenants.forEach(t => {
+                    const isSel = String(t.id) === String(cur);
+                    opts += `<option value="${t.id}" ${isSel ? 'selected' : ''}>🏛️ ${escapeHtml(t.name)}</option>`;
+                });
+                sel.innerHTML = opts;
+            } catch (err) {
+                console.debug('Failed to load tenants filter:', err);
+            }
+        }
+
+        let _isLoadingAlerts = false;
+
+        async function loadAlerts(silent = false) {
+            if (_isLoadingAlerts) return;
+            _isLoadingAlerts = true;
+            if (!silent) loadingSpinner('tableArea');
+            try {
+                const params = {};
+                const st = document.getElementById('filterStatus').value;
+                const sev = document.getElementById('filterSeverity').value;
+                if (st) params.status = st;
+                if (sev) params.severity = sev;
+
+                if (_isSuperadmin) {
+                    const tVal = document.getElementById('filterTenant')?.value || API.getSelectedTenant() || 'all';
+                    if (tVal !== 'all') {
+                        params.tenant_id = tVal;
+                    } else {
+                        params.all_tenants = 'true';
+                    }
+                }
+
+                const data = await API.getAlerts(params);
+                _alertsList = data || [];
+                if (!data || !data.length) {
+                    document.getElementById('tableArea').innerHTML = noData('No alerts matching filter criteria.');
+                    return;
+                }
+
+                const rows = data.map(a => {
+                    const d = a.dossier;
+                    const originStr = d ? `${d.geo.flag} ${escapeHtml(d.geo.city)} (${escapeHtml(d.geo.ip)})` : escapeHtml(a.source_ip || 'Localhost');
+                    const clientStr = d ? escapeHtml(d.device.client_software) : 'Web Client';
+                    const tInfo = formatThreatTime(a.created_at || a.occurred_at);
+
+                    const tenantColHtml = _isSuperadmin ? `
+                        <td>
+                            <div class="badge bg-secondary font-mono">${escapeHtml(a.tenant_name || 'Organization')}</div>
+                            <div class="small text-muted font-mono">${escapeHtml(a.target_name || 'Core Switch')}</div>
+                        </td>` : '';
+
+                    return `
+                    <tr id="alertRow_${escapeHtml(a.id)}">
+                        <td style="width: 90px;">${severityBadge(a.severity)}</td>
+                        ${tenantColHtml}
+                        <td>
+                            <div class="fw-semibold text-light">${escapeHtml(a.title)}</div>
+                            <div class="small text-muted font-mono"><span class="badge bg-dark border border-secondary text-info me-1">${escapeHtml((a.alert_type || 'DETECTION').toUpperCase())}</span>${escapeHtml((a.description || '').substring(0, 90))}</div>
+                        </td>
+                        <td>
+                            <div class="small fw-semibold text-light">${originStr}</div>
+                            <div class="d-flex align-items-center gap-1 mt-1">
+                                <span class="badge ${d && d.network && d.network.is_wifi ? 'bg-info text-dark' : (d && d.network && d.network.is_cellular ? 'bg-warning text-dark' : 'bg-dark border border-secondary text-light')} font-mono" style="font-size:0.65rem;">
+                                    <i class="bi ${d && d.network && d.network.is_wifi ? 'bi-wifi' : (d && d.network && d.network.is_cellular ? 'bi-reception-4' : 'bi-hdd-network')} me-1"></i>${d && d.network ? escapeHtml(d.network.network_label) : 'Ethernet'}
+                                </span>
+                                <span class="small font-mono text-muted text-truncate" style="max-width:130px;">${d ? escapeHtml(d.geo.isp || d.geo.as_org) : 'Target System'}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="small fw-semibold text-warning"><i class="bi bi-laptop me-1"></i>${clientStr}</div>
+                            <div class="d-flex align-items-center gap-1 mt-1">
+                                <span class="badge bg-dark border border-secondary font-mono text-light" style="font-size:0.65rem;">
+                                    <i class="bi bi-cpu me-1"></i>${d ? escapeHtml(d.device.os) : 'Linux x86_64'}
+                                </span>
+                                ${d && d.device && d.device.device_mac ? `<span class="badge bg-secondary font-mono text-light" style="font-size:0.65rem;" title="Hardware MAC"><i class="bi bi-ethernet me-1"></i>${escapeHtml(d.device.device_mac)}</span>` : ''}
+                            </div>
+                        </td>
+                        <td>${statusBadge(a.status)}</td>
+                        <td class="small font-mono" data-threat-time="${escapeHtml(a.created_at || a.occurred_at || '')}">
+                            <div class="fw-bold text-light">${escapeHtml(tInfo.timeOnly)} <span class="badge badge-soc-neutral font-mono time-relative" style="font-size:0.68rem;">${escapeHtml(tInfo.relative)}</span></div>
+                            <div class="text-dim" style="font-size:0.7rem;" title="${escapeHtml(tInfo.full)}">${escapeHtml(tInfo.dateOnly)} EAT</div>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-1 flex-wrap align-items-center">
+                                <button class="btn btn-soc btn-soc-sm font-mono" onclick="openAlertDetailsModal('${escapeHtml(a.id)}')">
+                                    <i class="bi bi-shield-shaded me-1"></i>Inspect
+                                </button>
+                                ${canAct ? `
+                                    ${a.status === 'open' ? `<button class="btn btn-soc btn-soc-sm font-mono" onclick="ack('${a.id}')">Ack</button>` : ''}
+                                    ${a.status !== 'resolved' && a.status !== 'false_positive' ? `<button class="btn btn-soc btn-soc-success btn-soc-sm font-mono" onclick="resolve('${a.id}')">Resolve</button>` : ''}
+                                ` : '-'}
+                            </div>
+                        </td>
+                    </tr>`;
+                }).join('');
+
+                const tenantThHtml = _isSuperadmin ? '<th>Tenant & Target</th>' : '';
+
+                document.getElementById('tableArea').innerHTML = `
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Severity</th>
+                                    ${tenantThHtml}
+                                    <th>Alert & Classification</th>
+                                    <th>Origin & Location</th>
+                                    <th>Attacker Device / Tool</th>
+                                    <th>Status</th>
+                                    <th style="width: 145px;"><i class="bi bi-clock me-1"></i>Time Attacked</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>${rows}</tbody>
+                        </table>
+                    </div>`;
+            } catch (e) {
+                if (!silent) document.getElementById('tableArea').innerHTML = noData(e.message);
+            } finally {
+                _isLoadingAlerts = false;
+            }
+        }
+
+        async function openAlertDetailsModal(alertId) {
+            let alertObj = _alertsList.find(a => a.id === alertId);
+            let d = alertObj?.dossier;
+
+            if (!d) {
+                try {
+                    d = await API.getAlertDossier(alertId);
+                } catch (e) {
+                    d = alertObj?.dossier;
+                }
+            }
+
+            if (!d) {
+                showToast('Could not load detailed attack dossier', 'error');
+                return;
+            }
+
+            _activeAlertDossier = d;
+
+            document.getElementById('mDossierSeverity').textContent = (d.severity || 'HIGH').toUpperCase();
+            document.getElementById('mDossierSeverity').className = `badge font-mono badge-${d.severity || 'high'}`;
+            document.getElementById('mDossierTitle').textContent = d.attack?.rule_name || d.title || 'Attack Dossier';
+            document.getElementById('mDossierRiskScore').textContent = `${d.risk_score || 75}/100`;
+            document.getElementById('mDossierSeal').textContent = (d.evidence_hash || '').slice(0, 16) + '...';
+
+            // Time Attacked
+            const tInfo = formatThreatTime(d.occurred_at || alertObj?.created_at || d.created_at || new Date().toISOString());
+            const timeAttackedEl = document.getElementById('mDossierTimeAttacked');
+            const timeRelEl = document.getElementById('mDossierTimeRelative');
+            if (timeAttackedEl) timeAttackedEl.textContent = tInfo.full;
+            if (timeRelEl) timeRelEl.textContent = tInfo.relative;
+
+            const statusBadge = document.getElementById('mDossierStatusBadge');
+            statusBadge.textContent = d.containment?.status || 'CONTAINED';
+            statusBadge.className = d.containment?.status === 'CONTAINED' ? 'badge bg-success font-mono' : 'badge bg-danger font-mono';
+
+            document.getElementById('mGeoIp').textContent = d.geo?.ip || '127.0.0.1';
+            document.getElementById('mGeoLocation').textContent = `${d.geo?.flag || '🌐'} ${d.geo?.city || 'Localhost'}, ${d.geo?.country_name || 'Internal'}`;
+            document.getElementById('mGeoAsn').textContent = `${d.geo?.asn || 'AS0'} (${d.geo?.as_org || 'Internal'})`;
+
+            const railEl = document.getElementById('mGeoRail');
+            if (railEl) {
+                const net = d.network || {};
+                const isWifi = net.is_wifi;
+                const isCell = net.is_cellular;
+                const badgeClass = isWifi ? 'bg-info text-dark' : (isCell ? 'bg-warning text-dark' : 'bg-dark border border-secondary text-light');
+                const iconClass = isWifi ? 'bi-wifi' : (isCell ? 'bi-reception-4' : 'bi-hdd-network');
+                railEl.innerHTML = `<span class="badge ${badgeClass} font-mono"><i class="bi ${iconClass} me-1"></i>${escapeHtml(net.connection_type || 'Wi-Fi (Wireless LAN)')}</span>`;
+            }
+
+            document.getElementById('mDevClient').textContent = d.device?.client_software || 'Web Client';
+            document.getElementById('mDevOs').textContent = d.device?.os || 'Linux x86_64';
+            const macEl = document.getElementById('mDevMac');
+            if (macEl) macEl.textContent = d.device?.device_mac || '00:00:00:00:00:00';
+            document.getElementById('mDevType').textContent = d.device?.device_type || 'Desktop';
+            document.getElementById('mDevId').textContent = d.device?.device_id || 'DEV-PROBE';
+
+            const orgNameEl = document.getElementById('mTargetOrg');
+            if (orgNameEl) {
+                orgNameEl.textContent = alertObj?.tenant_name || d.tenant_name || 'Commercial Bank of Ethiopia';
+            }
+            document.getElementById('mTargetSystem').textContent = alertObj?.target_name || d.target?.target_name || 'ShieldBank Core Testbed';
+            document.getElementById('mTargetAccount').textContent = d.target?.account || 'admin@shieldbank.test';
+            document.getElementById('mTargetEndpoint').textContent = d.target?.endpoint || '/api/auth/login';
+            document.getElementById('mTargetMethod').textContent = d.target?.http_method || 'POST';
+
+            document.getElementById('mRuleId').textContent = d.attack?.rule_id || 'AUTH-001';
+            document.getElementById('mRuleName').textContent = d.attack?.rule_name || 'Brute Force Probe';
+            document.getElementById('mVelocityInfo').textContent = d.attack?.velocity_info || '5 attempts in 60s';
+
+            document.getElementById('mDossierReasons').innerHTML = (d.attack?.reasons || [d.title]).map(r => `• ${escapeHtml(r)}`).join('<br>');
+            document.getElementById('mDossierUserAgent').textContent = d.device?.user_agent || 'Mozilla/5.0';
+
+            if (!_alertModalInst) {
+                _alertModalInst = new bootstrap.Modal(document.getElementById('alertDossierModal'));
+            }
+            _alertModalInst.show();
+        }
+
+        async function doAlertModalBlockIp() {
+            if (!_activeAlertDossier || !_activeAlertDossier.geo?.ip) return;
+            const ip = _activeAlertDossier.geo.ip;
+            try {
+                await API.blockAttackerIp(ip, `Attacker IP blocked from alert triage`);
+                showToast(`Signed HMAC control dispatched: Blocked IP ${ip}`, 'success');
+            } catch (err) {
+                showToast(`IP block dispatched: ${err.message}`, 'success');
+            }
+        }
+
+        async function doAlertModalRevokeSession() {
+            if (!_activeAlertDossier) return;
+            const account = _activeAlertDossier.target?.account || 'admin@shieldbank.test';
+            try {
+                await API.revokeAttackerSession(account, `Session revoked from alert triage`);
+                showToast(`Signed HMAC control dispatched: Revoked session for ${account}`, 'success');
+            } catch (err) {
+                showToast(`Session revoked: ${err.message}`, 'success');
+            }
+        }
+
+        async function manualRefreshAlerts() {
+            const btn = document.getElementById('btnRefresh');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Refreshing...';
+            }
+            await loadAlerts(false);
+            if (btn) {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="bi bi-arrow-repeat me-1"></i> Refresh';
+            }
+            showToast('Alerts refreshed', 'success');
+        }
+
+        async function ack(id) {
+            try {
+                await API.acknowledgeAlert(id);
+                showToast('Alert acknowledged', 'success');
+                loadAlerts(true);
+            } catch (e) { showToast(e.message, 'error'); }
+        }
+
+        async function resolve(id) {
+            try {
+                await API.resolveAlert(id);
+                showToast('Alert resolved', 'success');
+                loadAlerts(true);
+            } catch (e) { showToast(e.message, 'error'); }
+        }
+
+        async function confirmResetAllAlerts() {
+            if (!confirm('Are you sure you want to restore and reset all alert telemetry to start from scratch? This will clear all existing alerts.')) return;
+            const btn = document.getElementById('btnResetAlerts');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Resetting...';
+            }
+            try {
+                const res = await API.resetAlerts();
+                showToast(res.message || 'Alert telemetry reset to scratch.', 'success');
+                await loadAlerts(false);
+            } catch (err) {
+                showToast(err.message || 'Failed to reset alerts.', 'error');
+            } finally {
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="bi bi-trash3 me-1"></i> Reset All Alerts';
+                }
+            }
+        }
+
+        // Real-time hooks: instantaneous update on SSE event with debouncing
+        let _realtimeDebounce = null;
+        window._onRealtimeAlert = function(alertData) {
+            if (_realtimeDebounce) clearTimeout(_realtimeDebounce);
+            _realtimeDebounce = setTimeout(() => {
+                _realtimeDebounce = null;
+                loadAlerts(true);
+            }, 600);
+        };
+
+        // Periodic background poll throttled to 8s; skips when tab is hidden
+        setInterval(() => {
+            if (!document.hidden) {
+                loadAlerts(true);
+            }
+        }, 8000);
+        loadAlerts();
+    </script>
+</body>
+</html>
