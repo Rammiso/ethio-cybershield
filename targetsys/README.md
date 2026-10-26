@@ -1,10 +1,25 @@
 # HonorPay Digital Banking Platform (`targetsys`)
 
+<div align="center">
+
+# 🎬 [WATCH THE 5-MINUTE OFFICIAL DEMO & PRESENTATION VIDEO (LOOM)](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
+
+[![Watch 5-Minute Video Presentation on Loom](https://img.shields.io/badge/▶%20WATCH%20VIDEO%20DEMO-Loom%20(5%20Min%20Official%20Walkthrough)-00C853?style=for-the-badge&logo=loom&logoColor=white)](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
+
+### 📌 **Direct Video URL**: **[https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)**
+
+*Official 5-Minute Technical Walkthrough recorded specifically for INSA Evaluators, Examination Committees & CISO Reviewers.*
+
+---
+
+</div>
+
 > **Protected Banking Infrastructure & Security Telemetry Testbed**  
 > Designed for **Ethio-Cyber-Shield (ECS)** closed-loop detection and incident-readiness verification.  
 > **Institutional Submission**: Official Verification Target submitted to the **Information Network Security Administration (INSA)**, Federal Democratic Republic of Ethiopia.  
 > **Official Monorepo**: [https://github.com/Rammiso/ethio-cybershield](https://github.com/Rammiso/ethio-cybershield) *(Directory: `targetsys/`)*  
-> **Live Production Deployment**: [https://honorpay-banking.vercel.app](https://honorpay-banking.vercel.app)
+> **Live Production Deployment**: [https://honorpay-banking.vercel.app](https://honorpay-banking.vercel.app)  
+> **5-Minute Video Walkthrough**: [https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
 
 ---
 

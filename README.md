@@ -1,11 +1,39 @@
 # Ethio-Cyber-Shield (ECS) — Sovereign Cyber Defense, Financial Fraud Interception & 48-Hour Incident-Readiness Platform
 
+<div align="center">
+
+# 🎬 [WATCH THE 5-MINUTE OFFICIAL DEMO & PRESENTATION VIDEO (LOOM)](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
+
+[![Watch 5-Minute Video Presentation on Loom](https://img.shields.io/badge/▶%20WATCH%20VIDEO%20DEMO-Loom%20(5%20Min%20Official%20Walkthrough)-00C853?style=for-the-badge&logo=loom&logoColor=white)](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
+
+### 📌 **Direct Video URL**: **[https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)**
+
+*Official 5-Minute Technical Walkthrough recorded specifically for INSA Evaluators, Examination Committees & CISO Reviewers.*
+
+---
+
+</div>
+
 > **Project Mandate**: An independent, multi-tenant, explainable, self-hostable cybersecurity detection and statutory incident-readiness platform engineered specifically for Ethiopian critical national infrastructure (CNI) and digital financial service operators.  
 > **Institutional Submission**: Official Project Submission to the **Information Network Security Administration (INSA)**, Federal Democratic Republic of Ethiopia.  
 > **Regulatory Alignment**:  
 > • **FDRE Proclamation No. 1426/2026** — *Critical Infrastructure Cybersecurity Proclamation* (Mandatory 48-Hour Incident Reporting to National CERT & Forensic Chain-of-Custody).  
 > • **National Bank of Ethiopia (NBE) Directives** — *Financial Cyber Risk Framework & Directive SBB/84/2022* (Real-Time Payment Rail Fraud, ATO, and Structuring Interception).  
 > • **FDRE Proclamation No. 1321/2024** — *Personal Data Protection Proclamation (PDPP)* (Zero-PII Storage, SHA-256 Masking & Data Minimization).
+
+---
+
+## 🎥 5-Minute Official Video Presentation & Live Demonstration
+
+> [!IMPORTANT]
+> ### 📺 [CLICK HERE TO PLAY THE 5-MINUTE OFFICIAL DEMONSTRATION ON LOOM](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)
+> **Direct Link**: **[`https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d`](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)**  
+> 
+> **Evaluation Highlights demonstrated live in the video**:
+> 1. **Live Red Team Offensive Simulation**: Account Takeover (ATO), credential stuffing, and velocity fraud executed on [HonorPay Digital Banking](https://honorpay-banking.vercel.app).
+> 2. **Sub-Second SOC Detection & Siren**: Instant telemetry ingestion into [Ethio-Cyber-Shield SOC Console](https://ethio-cyber-shield.onrender.com), explainable risk scoring (0–100), and auditory situational siren dispatch.
+> 3. **Autonomous Closed-Loop Mitigation**: Zero-trust automated account freezing, IP blocklisting, and session revocation.
+> 4. **INSA 48-Hour Regulatory Incident Dossier**: Statutory compliance reports, Merkle hash-sealed audit logs, and chain-of-custody export.
 
 ---
 
@@ -53,6 +81,7 @@ All systems comprising the CyberShield ecosystem are continuously deployed in pu
 | **ECS Managed PostgreSQL**<br>*Relational Datastore & RLS* | **Render Cloud**<br>(Region: Oregon, USA)<br>Engine: PostgreSQL 18 | `postgresql://ecs_admin:...@dpg-dbefthom7kps73dp2bn0-a/ecs_db`<br>*(SSL Encrypted, Multi-Tenant RLS Enabled)* | [Render Postgres Dashboard](https://dashboard.render.com/d/dpg-dbefthom7kps73dp2bn0-a)<br>Instance ID: `dpg-dbefthom7kps73dp2bn0-a` | **Available**<br>Schema initialized (`init.sql`) |
 | **ECS Managed Redis**<br>*Durable Streams & Velocity Cache* | **Render Cloud**<br>(Region: Oregon, USA)<br>Engine: Redis 8.1.10 | `redis://red-dbeftkjncjis73e4gsb0:6379`<br>*(Bounded Streams & LRU Eviction)* | [Render Redis Dashboard](https://dashboard.render.com/d/red-dbeftkjncjis73e4gsb0)<br>Instance ID: `red-dbeftkjncjis73e4gsb0` | **Available**<br>Stream engine online |
 | **HonorPay Digital Banking**<br>*Protected Target Financial System* | **Vercel Cloud**<br>Serverless Edge<br>Framework: TanStack Start | 🌐 **Primary Banking Application**:<br>[https://honorpay-banking.vercel.app](https://honorpay-banking.vercel.app)<br><br>🏦 **Portal Deep-Links**:<br>• [Customer Login Portal](https://honorpay-banking.vercel.app/login)<br>• [Employee Portal](https://honorpay-banking.vercel.app/employee)<br>• [Red Team Attack Lab (`/admin/lab`)](https://honorpay-banking.vercel.app/admin/lab) | [Vercel Project Dashboard](https://vercel.com/rammisos-projects/honorpay)<br>Project: `honorpay`<br>Team: `rammisos-projects` | **Operational**<br>`HTTP/2 200 OK` |
+| **Official Video Presentation**<br>*(5-Minute Demonstration)* | **Loom Video Cloud**<br>High-Definition Screen & Voice Recording | 🎬 **[Watch Live Video Presentation](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d)**<br><br>🔗 **Permanent URL**:<br>[https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d](https://www.loom.com/share/5566726be7a246c9bfc1b33910a94e4d) | INSA Evaluation Walkthrough | **Available & Verified** |
 | **Source Code Repository** | **GitHub** | 📦 **Unified Monorepo (ECS + Target System)**:<br>[https://github.com/Rammiso/ethio-cybershield](https://github.com/Rammiso/ethio-cybershield) *(Branch: `main`)* | Monorepo Version Control | **Synchronized & Active** |
 
 ---
