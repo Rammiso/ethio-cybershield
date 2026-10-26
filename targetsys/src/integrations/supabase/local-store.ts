@@ -165,12 +165,16 @@ class LocalDatabase {
       // 1. User
       const userIdx = this.users.findIndex((u) => u.id === userId || (email && u.email === email));
       if (userIdx >= 0) {
-        if (password) this.users[userIdx]!.passwordHash = password;
+        if (e.password) {
+          this.users[userIdx]!.passwordHash = e.password;
+        } else if (!this.users[userIdx]!.passwordHash) {
+          this.users[userIdx]!.passwordHash = e.initialPassword || "Welcome@2026";
+        }
       } else if (email) {
         this.users.push({
           id: userId,
           email,
-          passwordHash: password,
+          passwordHash: e.password || e.initialPassword || "Welcome@2026",
           user_metadata: { full_name: fullName },
           role: "authenticated",
           aud: "authenticated",
@@ -1081,11 +1085,7 @@ export const localAuthAdmin = {
       };
     }
 
-    const isPasswordValid =
-      user.passwordHash === password ||
-      password === DEMO_PASSWORD ||
-      password === "Welcome@2026" ||
-      (password.startsWith("Welcome@") && password.length >= 8);
+    const isPasswordValid = user.passwordHash === password;
 
     if (!isPasswordValid) {
       return {

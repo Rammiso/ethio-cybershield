@@ -366,6 +366,38 @@ export async function changeCustomerPassword(
 ) {
   if (!ctx.user) throw new TelemetryError("UNAUTHENTICATED", "Sign in required", 401);
 
+  if (!data.newPassword || data.newPassword.length < 8) {
+    throw new TelemetryError("WEAK_PASSWORD", "New password must be at least 8 characters long.", 400);
+  }
+
+  if (data.newPassword === data.currentPassword) {
+    throw new TelemetryError("SAME_PASSWORD", "New password must be different from current password.", 400);
+  }
+
+  // Verify current password
+  let verified = false;
+  try {
+    const { data: auth, error } = await publicAuthClient().auth.signInWithPassword({
+      email: ctx.user.email,
+      password: data.currentPassword,
+    });
+    if (!error && auth?.user) verified = true;
+  } catch {
+    // fallback
+  }
+
+  if (!verified) {
+    const localRes = await localAuthAdmin.signInWithPassword({
+      email: ctx.user.email,
+      password: data.currentPassword,
+    });
+    if (localRes.data?.user) verified = true;
+  }
+
+  if (!verified) {
+    throw new TelemetryError("INVALID_PASSWORD", "Current password is incorrect.", 400);
+  }
+
   const { data: prof } = await supabaseAdmin
     .from("profiles")
     .select("last_login_at, step_up_until")
@@ -396,6 +428,24 @@ export async function changeCustomerPassword(
     .update({ must_change_password: false, updated_at: new Date().toISOString() })
     .eq("user_id", ctx.user.id);
 
+  // In local testbed mode, explicitly ensure memory store and dump file are updated
+  try {
+    const { localDb } = await import("@/integrations/supabase/local-store");
+    const uIdx = localDb.users.findIndex((u) => u.id === ctx.user!.id || u.email === ctx.user!.email);
+    if (uIdx >= 0) {
+      localDb.users[uIdx]!.passwordHash = data.newPassword;
+    }
+    for (const p of localDb.tables["profiles"] || []) {
+      if (p.user_id === ctx.user!.id || (ctx.user!.email && p.email === ctx.user!.email) || (ctx.user!.publicId && p.public_id === ctx.user!.publicId)) {
+        p.must_change_password = false;
+        p.updated_at = new Date().toISOString();
+      }
+    }
+    localDb.save();
+  } catch {
+    // ignore
+  }
+
   const now = Date.now();
   const secondsSinceLogin = prof?.last_login_at
     ? Math.max(0, Math.round((now - new Date(prof.last_login_at).getTime()) / 1000))
@@ -410,7 +460,13 @@ export async function changeCustomerPassword(
     },
   });
 
-  return { ok: true };
+  return {
+    ok: true,
+    userId: ctx.user.id,
+    userPublicId: ctx.user.publicId,
+    email: ctx.user.email,
+    newPassword: data.newPassword,
+  };
 }
 
 /**

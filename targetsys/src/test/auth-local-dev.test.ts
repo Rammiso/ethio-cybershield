@@ -54,14 +54,75 @@ describe("ShieldBank Auth & Local Dev Testbed", () => {
     }
   });
 
-  it("rejects invalid password for registered account", async () => {
+  it("rejects invalid password for registered account and locks account upon reaching lockout threshold", async () => {
     const ctx = createMockCtx();
-    const result = await performLogin(ctx, "testcustomer@shieldbank.test", "WrongPassword123!");
+    const testEmail = "testcustomer@shieldbank.test";
 
-    expect(result.ok).toBe(false);
-    if (!result.ok) {
-      expect(result.error).toBe("Incorrect email or password.");
+    // Consecutive failed login attempts
+    for (let i = 1; i <= 4; i++) {
+      const res = await performLogin(ctx, testEmail, `BadPassAttempt${i}`);
+      expect(res.ok).toBe(false);
+      if (!res.ok) {
+        expect(res.error).toBe("Incorrect email or password.");
+      }
     }
+
+    // 5th attempt reaches lockout threshold (5)
+    const lockAttempt = await performLogin(ctx, testEmail, "BadPassAttempt5");
+    expect(lockAttempt.ok).toBe(false);
+
+    // 6th attempt is blocked with account locked message
+    const lockedRes = await performLogin(ctx, testEmail, "Testbed#2026");
+    expect(lockedRes.ok).toBe(false);
+    if (!lockedRes.ok) {
+      expect(lockedRes.error).toMatch(/temporarily locked/i);
+    }
+
+    // Unlock account for subsequent tests
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    await supabaseAdmin
+      .from("profiles")
+      .update({ failed_login_count: 0, locked_until: null, status: "ACTIVE" })
+      .eq("email", testEmail);
+  });
+
+  it("validates current password when updating password in customer profile", async () => {
+    const { changeCustomerPassword } = await import("@/lib/customer.server");
+    const { localDb } = await import("@/integrations/supabase/local-store");
+    const testUser = localDb.users.find((u) => u.email === "testcustomer@shieldbank.test");
+    expect(testUser).toBeDefined();
+
+    const authCtx = createMockCtx();
+    authCtx.user = { id: testUser!.id, publicId: "U_TEST_01", email: testUser!.email };
+
+    // Fails when current password is wrong
+    await expect(
+      changeCustomerPassword(authCtx, {
+        currentPassword: "IncorrectCurrentPassword!",
+        newPassword: "BrandNewPassword#2026",
+      }),
+    ).rejects.toThrow(/Current password is incorrect/i);
+
+    // Succeeds when current password matches
+    const changeRes = await changeCustomerPassword(authCtx, {
+      currentPassword: "Testbed#2026",
+      newPassword: "BrandNewPassword#2026",
+    });
+    expect(changeRes.ok).toBe(true);
+
+    // Now old password fails to login
+    const oldLogin = await performLogin(createMockCtx(), "testcustomer@shieldbank.test", "Testbed#2026");
+    expect(oldLogin.ok).toBe(false);
+
+    // New password succeeds
+    const newLogin = await performLogin(createMockCtx(), "testcustomer@shieldbank.test", "BrandNewPassword#2026");
+    expect(newLogin.ok).toBe(true);
+
+    // Restore password to Testbed#2026 for subsequent tests
+    await changeCustomerPassword(authCtx, {
+      currentPassword: "BrandNewPassword#2026",
+      newPassword: "Testbed#2026",
+    });
   });
 
   it("registers a new customer and allows immediate login", async () => {

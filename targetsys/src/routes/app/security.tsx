@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useState, useEffect } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { CustomerShell } from "@/components/customer-shell";
+import { markStoredEntityPasswordChanged } from "@/lib/client-headers";
 import {
   getProfileDetailsFn,
   updateCustomerProfileFn,
@@ -228,6 +229,14 @@ function SecurityPage() {
           otpChallengeId: isStepUpActive ? passwordOtpChallengeId : null,
         },
       });
+
+      // Update client-side entity storage so that subsequent headers reflect updated password
+      if (user?.id) markStoredEntityPasswordChanged(user.id, newPassword);
+      if (user?.email) markStoredEntityPasswordChanged(user.email, newPassword);
+      if (user?.publicId) markStoredEntityPasswordChanged(user.publicId, newPassword);
+      if (user?.phone) markStoredEntityPasswordChanged(user.phone, newPassword);
+      if (account?.account_number) markStoredEntityPasswordChanged(account.account_number, newPassword);
+
       setPasswordSuccess("Password updated successfully.");
       setCurrentPassword("");
       setNewPassword("");

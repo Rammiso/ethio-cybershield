@@ -411,6 +411,24 @@ describe("HonorPay Mobile Banking & Teller Deposit Engine Tests", () => {
     // Relogin with new password succeeds
     const relogin = await performLogin(createMockContext(), "0988776655", "PersonalSecret@2026");
     expect(relogin.ok).toBe(true);
+
+    // Relogin with old temporary password Welcome@2026 MUST strictly fail now
+    const oldLogin = await performLogin(createMockContext(), "0988776655", "Welcome@2026");
+    expect(oldLogin.ok).toBe(false);
+    if (!oldLogin.ok) {
+      expect(oldLogin.error).toBe("Incorrect email or password.");
+    }
+
+    // Login with random brute-force password MUST strictly fail
+    const wrongLogin = await performLogin(createMockContext(), "0988776655", "RandomBruteForcePass123!");
+    expect(wrongLogin.ok).toBe(false);
+    if (!wrongLogin.ok) {
+      expect(wrongLogin.error).toBe("Incorrect email or password.");
+    }
+
+    // Login with default demo password Testbed#2026 MUST strictly fail on this registered customer account
+    const testbedLogin = await performLogin(createMockContext(), "0988776655", "Testbed#2026");
+    expect(testbedLogin.ok).toBe(false);
   });
 
   it("validates phone numbers and SQL injection attacks in LoginInputSchema and triggers SQLI telemetry", async () => {
