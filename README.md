@@ -38,7 +38,6 @@ This cybersecurity platform and verified banking target infrastructure were engi
 > • **Locally Hosted Sovereign LLM Copilot** for conversational threat hunting and automated bilingual (Amharic & English) INSA 48-hour dossier generation.  
 > 
 > 📖 **Read the Complete Strategy**: **[`FULL_PROJECT_VISION_AND_AI_ROADMAP.md`](FULL_PROJECT_VISION_AND_AI_ROADMAP.md)**  
-> 🎥 **Read the Official Video Presentation Script**: **[`PRESENTATION_SCRIPT_5MIN.md`](PRESENTATION_SCRIPT_5MIN.md)**
 
 ---
 
