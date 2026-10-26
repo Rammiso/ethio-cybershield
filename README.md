@@ -24,6 +24,24 @@ This cybersecurity platform and verified banking target infrastructure were engi
 
 ---
 
+## Project Status: Sovereign MVP & Open-Source Evolution
+
+> [!IMPORTANT]
+> **Project Scope Notice — Minimum Viable Product (MVP)**:  
+> This repository presents the functional **Minimum Viable Product (MVP)** of the Ethio-Cyber-Shield sovereign defense platform. It serves as a working technical demonstrator of the core closed-loop architecture: streaming telemetry ingestion, 4-tier declarative detection rules, explainable risk scoring (0–100), automated containment dispatch, and 48-hour statutory incident readiness.  
+> 
+> **Open-Source Distribution**: The platform is licensed under **Apache-2.0** and is designed to be easily installable as standard packages across any Linux server, container cluster, or on-premise infrastructure.  
+> 
+> **Upcoming AI & Machine Learning Expansion**: While the current MVP enforces deterministic, 100% explainable rules for statutory audit compliance, upcoming releases integrate advanced AI/ML capabilities:
+> • **Graph Neural Networks (GNNs)** for detecting complex inter-bank mule transaction rings and smurfing across EthSwitch and telebirr.  
+> • **Unsupervised Behavioral Anomaly Detection (UEBA)** using Autoencoders and Isolation Forests for zero-day threat discovery.  
+> • **Locally Hosted Sovereign LLM Copilot** for conversational threat hunting and automated bilingual (Amharic & English) INSA 48-hour dossier generation.  
+> 
+> 📖 **Read the Complete Strategy**: **[`FULL_PROJECT_VISION_AND_AI_ROADMAP.md`](FULL_PROJECT_VISION_AND_AI_ROADMAP.md)**  
+> 🎥 **Read the Official Video Presentation Script**: **[`PRESENTATION_SCRIPT_5MIN.md`](PRESENTATION_SCRIPT_5MIN.md)**
+
+---
+
 ## 1. Cloud Deployment Directory & Master System Endpoints
 
 All systems comprising the CyberShield ecosystem are continuously deployed in public cloud production and operational:
@@ -207,8 +225,50 @@ To integrate any external banking system, core processor (e.g. Temenos T24), mob
 
 ---
 
-## 8. License & Institutional Attestation
+## 8. Open-Source Package Ecosystem & CLI Commands
+
+Ethio-Cyber-Shield is built for direct installation across Linux servers, Docker environments, and microservice backends:
+
+### Installing via Package Managers
+```bash
+# 1. Install ECS Core Platform & CLI via pip
+pip install ethio-cyber-shield
+
+# Or install locally in editable mode from repository:
+cd Ethio-Cyber-Shield
+pip install -e .
+
+# 2. Install the Official Python Telemetry SDK (with Outbox):
+pip install ethio-cyber-shield-sdk
+
+# 3. Install the Official Node.js / TypeScript SDK:
+npm install @ethio-cyber-shield/sdk
+```
+
+### Running ECS via Unified CLI
+```bash
+# Print platform version
+ecs version
+
+# Start the ECS Defense Gateway and SOC Web Server
+ecs server --port 5000 --host 0.0.0.0
+
+# Start the standalone Web Log Agent Collector daemon
+ecs agent --ecs-url https://ethio-cyber-shield.onrender.com
+```
+
+---
+
+## 9. Official Video Presentation & Future AI Roadmap
+
+- 🎥 **5-Minute Video Presentation Script**: Complete spoken word-for-word script, screen actions, and visual cues for presenting the platform to INSA and academic committees: **[`PRESENTATION_SCRIPT_5MIN.md`](PRESENTATION_SCRIPT_5MIN.md)**.
+- 🧠 **Next-Gen Machine Learning & AI Roadmap**: In-depth architectural blueprint covering Graph Neural Networks for mule detection, unsupervised Autoencoder anomaly detection, and local sovereign LLM copilot: **[`FULL_PROJECT_VISION_AND_AI_ROADMAP.md`](FULL_PROJECT_VISION_AND_AI_ROADMAP.md)**.
+
+---
+
+## 10. License & Institutional Attestation
 
 This project is developed as an institutional cybersecurity engineering research initiative.  
 Submitted to the **Information Network Security Administration (INSA)**.  
+Licensed under the **Apache License, Version 2.0**.  
 Copyright &copy; 2026 **Musab Hassen Aliyi, Osman Mohammed Seid, Kedist Eyasu Embaye, Yoseph Abebe Ersedo, Omer Mohammed Seid, Efrem Mola Genebo**. All rights reserved.

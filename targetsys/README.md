@@ -23,6 +23,17 @@ This target banking platform and security outbox pipeline were engineered and su
 
 ---
 
+## Project Status: Sovereign Target MVP & Open Telemetry SDK
+
+> [!IMPORTANT]
+> **MVP Verification Target**:  
+> HonorPay serves as the official commercial banking testbed and telemetry generator demonstrating closed-loop mitigation for the **Ethio-Cyber-Shield (ECS)** platform.  
+> It showcases client-side integration of the `@ethio-cyber-shield/sdk` (Node/TypeScript) and Transactional Outbox pattern.  
+> 📖 Complete Platform Roadmap: **[`../FULL_PROJECT_VISION_AND_AI_ROADMAP.md`](../FULL_PROJECT_VISION_AND_AI_ROADMAP.md)**  
+> 🎥 5-Minute Video Presentation Script: **[`../PRESENTATION_SCRIPT_5MIN.md`](../PRESENTATION_SCRIPT_5MIN.md)**
+
+---
+
 ## 1. System Overview
 
 **HonorPay** is a production-grade Ethiopian commercial digital banking web application built with **TanStack Start**, **React 18**, **Vite**, **TypeScript**, and **Tailwind CSS**. It serves as the realistic financial target infrastructure monitored by Ethio-Cyber-Shield (ECS).

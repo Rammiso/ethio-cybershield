@@ -3,7 +3,7 @@
 > **Sovereign Threat-Detection, Explainable Risk Scoring & 48-Hour Incident-Readiness Platform**  
 > Engineered for Ethiopian critical infrastructure and digital finance operators.  
 > **Institutional Submission**: Official Project Submission to the **Information Network Security Administration (INSA)**, Federal Democratic Republic of Ethiopia.  
-> **Official Monorepo**: [https://github.com/Rammiso/ethio-cybershield](https://github.com/Rammiso/ethio-cybershield) *(Directory: `Ethio-Cyber-Shield/`)*  
+> **Official Repo**: [https://github.com/Rammiso/ethio-cybershield](https://github.com/Rammiso/ethio-cybershield) *(Directory: `Ethio-Cyber-Shield/`)*  
 > **Live Cloud Production Console**: [https://ethio-cyber-shield.onrender.com](https://ethio-cyber-shield.onrender.com)  
 > **Connected Banking Target**: [https://honorpay-banking.vercel.app](https://honorpay-banking.vercel.app)
 
@@ -15,12 +15,28 @@ This cybersecurity platform was engineered and submitted to **INSA** by:
 
 | No. | Full Name | Institutional ID | Engineering Role & Specialization |
 | :---: | :--- | :---: | :--- |
-| **1** | **Musab Hassen Aliyi** | **CTC-384-26** | **Lead System Architect & Project Coordinator** — Architecture design, multi-tenant governance, and cloud orchestration. |
+| **1** | **Musab Hassen Aliyi** | **CTC-3842-26** | **Lead System Architect & Project Coordinator** — Architecture design, multi-tenant governance, and cloud orchestration. |
 | **2** | **Osman Mohammed Seid** | **CTC-2974-26** | **Lead Detection Engine & Threat Intelligence Engineer** — Declarative rules hierarchy (L1–L4), velocity baselines, and threat dossiers. |
 | **3** | **Kedist Eyasu Embaye** | **CTC-1247-26** | **Security Telemetry & Cryptographic Verification Engineer** — Edge telemetry, HMAC-SHA256 signatures, and SHA-256 audit trails. |
 | **4** | **Yoseph Abebe Ersedo** | **CTC-430-26** | **SOC Operations & Frontend Visualization Engineer** — High-contrast SOC interface, Web Audio threat sirens, and responsive UI. |
 | **5** | **Omer Mohammed Seid** | **CTC-3716-26** | **Core Backend & Multi-Tenancy Systems Engineer** — Stream ingestion (Redis Streams), PostgreSQL RLS isolation, and data schemas. |
 | **6** | **Efrem Mola Genebo** | **CTC-4772-26** | **Red Team Operations & Attack Simulation Engineer** — Burp Suite offensive verification, 32-scenario testing harnesses, and test suites. |
+
+---
+
+## Project Status: Sovereign MVP & Open-Source Evolution
+
+> [!IMPORTANT]
+> **Project Scope Notice — Minimum Viable Product (MVP)**:  
+> This platform currently operates as a verified **Minimum Viable Product (MVP)** demonstrating sovereign, closed-loop cybersecurity detection, 0–100 explainable risk scoring, and 48-hour statutory incident readiness.  
+> 
+> **Open-Source Distribution & Package Installability**:  
+> ECS is fully open-source (Apache-2.0) and installable as a Python package via `pip install ethio-cyber-shield` (or `pip install -e .` from this directory).  
+> 
+> **Next-Gen AI/ML Expansion (v4.0 Horizon)**:  
+> Planned additions to this MVP include Graph Neural Networks (GNNs) for inter-bank transaction mule rings, unsupervised Autoencoder anomaly detection, and a local Sovereign LLM Copilot for Amharic/English incident reporting.  
+> 📖 See: **[`../FULL_PROJECT_VISION_AND_AI_ROADMAP.md`](../FULL_PROJECT_VISION_AND_AI_ROADMAP.md)**  
+> 🎥 See: **[`../PRESENTATION_SCRIPT_5MIN.md`](../PRESENTATION_SCRIPT_5MIN.md)**
 
 ---
 
