@@ -1,9 +1,26 @@
 # Ethio-Cyber-Shield (ECS) v3.0
 
-> **Independent Threat-Detection, Explainable Risk Scoring & Incident-Readiness Platform**  
-> Built for Ethiopian critical infrastructure and digital finance operators.  
+> **Sovereign Threat-Detection, Explainable Risk Scoring & 48-Hour Incident-Readiness Platform**  
+> Engineered for Ethiopian critical infrastructure and digital finance operators.  
+> **Institutional Submission**: Official Project Submission to the **Information Network Security Administration (INSA)**, Federal Democratic Republic of Ethiopia.  
+> **Official Monorepo**: [https://github.com/Rammiso/ethio-cybershield](https://github.com/Rammiso/ethio-cybershield) *(Directory: `Ethio-Cyber-Shield/`)*  
 > **Live Cloud Production Console**: [https://ethio-cyber-shield.onrender.com](https://ethio-cyber-shield.onrender.com)  
 > **Connected Banking Target**: [https://honorpay-banking.vercel.app](https://honorpay-banking.vercel.app)
+
+---
+
+## Project Authors & Research Engineering Team
+
+This cybersecurity platform was engineered and submitted to **INSA** by:
+
+| No. | Full Name | Institutional ID | Engineering Role & Specialization |
+| :---: | :--- | :---: | :--- |
+| **1** | **Musab Hassen Aliyi** | **CTC-384-26** | **Lead System Architect & Project Coordinator** — Architecture design, multi-tenant governance, and cloud orchestration. |
+| **2** | **Osman Mohammed Seid** | **CTC-2974-26** | **Lead Detection Engine & Threat Intelligence Engineer** — Declarative rules hierarchy (L1–L4), velocity baselines, and threat dossiers. |
+| **3** | **Kedist Eyasu Embaye** | **CTC-1247-26** | **Security Telemetry & Cryptographic Verification Engineer** — Edge telemetry, HMAC-SHA256 signatures, and SHA-256 audit trails. |
+| **4** | **Yoseph Abebe Ersedo** | **CTC-430-26** | **SOC Operations & Frontend Visualization Engineer** — High-contrast SOC interface, Web Audio threat sirens, and responsive UI. |
+| **5** | **Omer Mohammed Seid** | **CTC-3716-26** | **Core Backend & Multi-Tenancy Systems Engineer** — Stream ingestion (Redis Streams), PostgreSQL RLS isolation, and data schemas. |
+| **6** | **Efrem Mola Genebo** | **CTC-4772-26** | **Red Team Operations & Attack Simulation Engineer** — Burp Suite offensive verification, 32-scenario testing harnesses, and test suites. |
 
 ---
 

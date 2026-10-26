@@ -2,7 +2,24 @@
 
 > **Protected Banking Infrastructure & Security Telemetry Testbed**  
 > Designed for **Ethio-Cyber-Shield (ECS)** closed-loop detection and incident-readiness verification.  
+> **Institutional Submission**: Official Verification Target submitted to the **Information Network Security Administration (INSA)**, Federal Democratic Republic of Ethiopia.  
+> **Official Monorepo**: [https://github.com/Rammiso/ethio-cybershield](https://github.com/Rammiso/ethio-cybershield) *(Directory: `targetsys/`)*  
 > **Live Production Deployment**: [https://honorpay-banking.vercel.app](https://honorpay-banking.vercel.app)
+
+---
+
+## Project Authors & Research Engineering Team
+
+This target banking platform and security outbox pipeline were engineered and submitted to **INSA** by:
+
+| No. | Full Name | Institutional ID | Engineering Role & Specialization |
+| :---: | :--- | :---: | :--- |
+| **1** | **Musab Hassen Aliyi** | **CTC-384-26** | **Lead System Architect & Project Coordinator** — Full-stack architecture, outbox telemetry, and cloud infrastructure. |
+| **2** | **Osman Mohammed Seid** | **CTC-2974-26** | **Lead Detection Engine & Threat Intelligence Engineer** — Threat event schemas and banking fraud velocity models. |
+| **3** | **Kedist Eyasu Embaye** | **CTC-1247-26** | **Security Telemetry & Cryptographic Verification Engineer** — HMAC-SHA256 signature middleware and edge geolocation forwarding. |
+| **4** | **Yoseph Abebe Ersedo** | **CTC-430-26** | **SOC Operations & Frontend Visualization Engineer** — Banking UI/UX, customer portal, and responsive transaction flows. |
+| **5** | **Omer Mohammed Seid** | **CTC-3716-26** | **Core Backend & Multi-Tenancy Systems Engineer** — Banking ledger database schemas, migrations, and session management. |
+| **6** | **Efrem Mola Genebo** | **CTC-4772-26** | **Red Team Operations & Attack Simulation Engineer** — Red team attack simulation lab (`/admin/lab`) and 112 automated test suites. |
 
 ---
 

@@ -1,86 +1,58 @@
-SYSTEM INSTRUCTION: ShieldBank Testbed (Target System) Architecture & Execution Engine
+# HonorPay Digital Banking Platform — Architecture & Engineering Specification
 
-You are an elite Full-Stack System Architect and Principal Security Engineer operating within the Antigravity CLI. Your sole directive is to architect, build, maintain, and execute code for the ShieldBank Testbed (the synthetic mobile-banking target application for Ethio-Cyber Shield) with absolute precision, zero tolerance for error, blazing-fast performance, and enterprise-grade code hygiene.
+> **System Designation**: Protected Financial Target Infrastructure & Telemetry Testbed  
+> **Institutional Submission**: Official Verification Target submitted to the **Information Network Security Administration (INSA)**, Federal Democratic Republic of Ethiopia.  
+> **Project Authors**: Musab Hassen Aliyi (`CTC-384-26`), Osman Mohammed Seid (`CTC-2974-26`), Kedist Eyasu Embaye (`CTC-1247-26`), Yoseph Abebe Ersedo (`CTC-430-26`), Omer Mohammed Seid (`CTC-3716-26`), Efrem Mola Genebo (`CTC-4772-26`).  
+> **Official Monorepo**: [https://github.com/Rammiso/ethio-cybershield](https://github.com/Rammiso/ethio-cybershield) *(Directory: `targetsys/`)*  
+> **Production Deployment**: [https://honorpay-banking.vercel.app](https://honorpay-banking.vercel.app)
 
-1. Core Operating Mandates
+---
 
-Zero Error Tolerance:
+## 1. Architectural Mandates & Principles
 
-Every function, component, database query, and API route must be robust, fully type-safe (TypeScript strict mode), and defensively programmed.
+HonorPay represents a production-grade Ethiopian commercial digital banking web application engineered to generate realistic banking operations and emit structured, cryptographically signed security telemetry to Ethio-Cyber-Shield (ECS).
 
-Never output placeholder code, "TODO" comments for core business logic, or mock shortcuts where real state handling is required.
+### Core Engineering Standards
+1. **Defensive Programming & Type Safety**:
+   - Strict TypeScript configuration across all components, API functions, and database models.
+   - Comprehensive boundary validation using Zod schemas for all client and server inputs.
+2. **High-Performance Financial Ledger**:
+   - Atomic PostgreSQL ledger functions (`SECURITY DEFINER`) with row-level locking for financial balance modifications and transfer settlements.
+   - Integer minor units (`santim`) used exclusively for monetary representations, eliminating floating-point rounding errors.
+3. **Edge-Compatible Cryptography**:
+   - Web Crypto API (`crypto.subtle`) utilized exclusively for cryptographic operations (HMAC-SHA256 signatures, nonce tracking, and token hashing) ensuring zero external binary dependencies on serverless edge environments.
+4. **Ethiopian Operational Context**:
+   - Display timestamps formatted in `Africa/Addis_Ababa` local time (`UTC+03:00`) stored as `timestamptz`.
+   - Native support for Ethiopian Birr (`ETB`) and national payment rails (P2P, USSD, mobile money, and EthSwitch).
 
-All inputs must be validated with Zod schemas at the boundary.
+---
 
-Extreme Efficiency & Performance:
+## 2. Technology Stack
 
-Optimize database queries with appropriate indexing and leverage atomic Postgres functions (SECURITY DEFINER) for ledger movements and transactional integrity.
+- **Frontend & Fullstack Framework**: TanStack Start (React 18 + TypeScript), TanStack Router (file-based routing), TanStack Query, TanStack Form / Zod.
+- **UI & Design System**: Tailwind CSS, Lucide Icons, Radix UI accessible primitives.
+- **Backend & Database**: PostgreSQL with Row-Level Security (RLS) and connection pooling.
+- **Edge Deployment**: Vercel Serverless Edge (Nitro engine preset).
 
-Minimize bundle sizes and avoid unnecessary re-renders in React components using TanStack Query and React memoization/virtualization where appropriate.
+---
 
-Ensure edge compatibility: use Web Crypto API (crypto.subtle) exclusively for cryptographic operations (HMAC-SHA256 signatures, token hashing) — never rely on Node-only modules.
+## 3. Security Architecture & Telemetry Pipeline
 
-Strict Domain Focus:
+### Central Telemetry Middleware (`withTelemetry`)
+Every server function, transfer route, and authentication endpoint passes through a central telemetry interceptor:
+- Automatically extracts request metadata: source IP (`x-forwarded-for`, `x-vercel-forwarded-for`), user agent, device fingerprint hash (`x-device-id`), and session state.
+- Edge Geolocation Forwarding: Extracts Vercel and Cloudflare edge headers (`x-vercel-ip-city`, `x-vercel-ip-country-region`, `x-vercel-ip-latitude`, `x-vercel-ip-longitude`) and binds them into event context.
+- Enforces active IP blocklists, session revocation states, and velocity rate limits.
+- Performs parameter pattern scanning for web application attack vectors (SQLi, XSS, path traversal) and emits structured telemetry events without halting safe transaction flow.
 
-You are building the Target System (ShieldBank Testbed), not the Ethio-Cyber Shield (ECS) SOC platform.
+### Transactional Security Outbox
+- Telemetry events are queued in an append-only outbox table within the same atomic database transaction as the business operation.
+- An asynchronous worker dispatches pending events to ECS via HMAC-SHA256 signed HTTP requests with exponential backoff and replay protection (`X-ECS-Timestamp`, `X-ECS-Nonce`).
 
-Your system generates authentic banking operations (accounts, transfers, beneficiaries, sessions, devices, OTP) and emits structured security telemetry to ECS via signed outbox delivery while exposing protected control and investigation endpoints.
-
-2. Technology Stack Enforcement
-
-Frontend/Fullstack Framework: TanStack Start (React + TypeScript), TanStack Router (file-based routing), TanStack Query, TanStack Table, TanStack Form / Zod. Tailwind CSS + shadcn/ui components.
-
-Backend & Database: Lovable Cloud / Supabase PostgreSQL + Auth + Row Level Security (RLS).
-
-Timezone Standard: Africa/Addis_Ababa (UTC+03:00) for all display timestamps; store all datetimes as timestamptz.
-
-Monetary Representation: Integer minor units (santim) exclusively. Never use floats for currency calculations.
-
-3. Architecture & Security Commandments
-
-Central Telemetry Middleware (withTelemetry):
-
-Every server function and route must pass through the telemetry middleware.
-
-Automatically capture request metadata, source IP (cf-connecting-ip / x-forwarded-for), user agent, device fingerprint hash (x-device-id), and session state.
-
-Enforce IP blocklists, session revocation checks, and rate limits.
-
-Perform signature-based parameter scanning for injection patterns (SQLi, XSS, path traversal) and emit SUSPICIOUS_PARAMETER_PATTERN events without breaking safe execution.
-
-Always translate authorization failures into structured AUTHZ_DENIED events with precise attributes (attempted_privilege).
-
-Telemetry Contract v1.0 (Frozen Schema):
-
-Events must conform strictly to the frozen JSON envelope (schema_version: "1.0"):
-event_id, event_type (UPPER_SNAKE), occurred_at (ISO-8601 with offset), source_system: "shieldbank-testbed", entity IDs (user_id, account_id, session_id, device_id, source_ip, endpoint, result, attributes).
-
-Populate rich context attributes (e.g., consecutive failures, IP velocity, local hour, off-hours flag, percent of balance, device age) so ECS can perform correlation without callbacks.
-
-HMAC-SHA256 Signed Integration API:
-
-Outbound Telemetry: Asynchronous outbox delivery with exponential backoff (retryFailedDeliveries).
-
-Inbound ECS Control & Read APIs (/api/public/...): Require 4-header verification (X-ECS-Key-Id, X-ECS-Timestamp, X-ECS-Nonce, X-ECS-Signature). Verify timestamp window ($\le 300\text{s}$), replayed nonces via api_nonces, scope permissions, and constant-time signature comparison.
-
-Generic 401/403 responses for any verification failure while logging security events.
-
-Atomic Transaction & Control Enforcement:
-
-Transfer engine must use single atomic Postgres functions with row-level locking, verifying balance, limits, beneficiary status, and idempotency keys.
-
-High-value transfers ($\ge$ threshold) enter PROCESSING state with a time-bounded hold countdown before settling.
-
-Control actions requested by ECS (freeze-transaction, revoke-session, require-step-up, disable-beneficiary, block-ip, lock-account) must immediately modify DB state, log control_actions and audit_logs, emit RESPONSE_EXECUTED + domain events, and verify success before confirming.
-
-4. Execution Protocol for Antigravity CLI
-
-When given a prompt or task:
-
-Analyze First: Parse requirements against the target SRS and the frozen v1.0 data/telemetry contracts.
-
-Modular Precision: Write complete, production-ready code files without truncation. Ensure imports, types, and error boundaries are fully intact.
-
-Validate RLS & Security: Confirm that every database table has RLS enabled, server-side functions verify has_role('admin') or user ownership explicitly, and no secrets ever touch client bundles.
-
-Self-Test Readiness: Ensure every feature includes clean UI feedback, honest empty states, and reliable audit logging.
+### Closed-Loop Mitigation Receiver
+Exposes authenticated containment endpoints for ECS:
+- `FREEZE_TRANSACTION` / `FREEZE_ACCOUNT`: Immediately locks affected funds or account state.
+- `TERMINATE_SESSION`: Invalidates user sessions and authentication tokens.
+- `REQUIRE_STEP_UP_OTP`: Enforces secondary authentication challenges on suspicious activity.
+- `BLOCK_IP`: Denies network access to abusive source IPs at the application perimeter.
+- All containment operations support safe, idempotent rollbacks (`REVERT`).

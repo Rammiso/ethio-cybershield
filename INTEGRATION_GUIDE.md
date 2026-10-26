@@ -1,8 +1,11 @@
 # Ethio-Cyber-Shield (ECS) — Universal System Integration Guide
 
-> **Target Audience**: Financial Technology Engineers, Core Banking Developers (CBE, Awash, Dashen, CoOP), Payment System Operators (EthSwitch, telebirr, M-PESA), and Critical Infrastructure Admins.  
-> **Mandate**: Real-time fraud detection, account takeover (ATO) defense, and automated statutory 48-hour incident readiness under **INSA Proclamation No. 1426/2026** and **NBE Directives**.  
-> **Live Cloud Integration Endpoint**: `https://ethio-cyber-shield.onrender.com/api/events`
+> **Institutional Submission**: Official Technical Specification submitted to the **Information Network Security Administration (INSA)**, Federal Democratic Republic of Ethiopia.  
+> **Project Authors**: Musab Hassen Aliyi (`CTC-384-26`), Osman Mohammed Seid (`CTC-2974-26`), Kedist Eyasu Embaye (`CTC-1247-26`), Yoseph Abebe Ersedo (`CTC-430-26`), Omer Mohammed Seid (`CTC-3716-26`), Efrem Mola Genebo (`CTC-4772-26`).  
+> **Target Audience**: Financial Technology Engineers, Core Banking Developers (CBE, Awash, Dashen, CoOP), Payment System Operators (EthSwitch, telebirr, M-PESA), and Critical National Infrastructure (CNI) SOC Administrators.  
+> **Statutory Mandate**: Real-time fraud detection, account takeover (ATO) defense, and automated statutory 48-hour incident readiness under **INSA Proclamation No. 1426/2026** and **NBE Directives**.  
+> **Live Cloud Integration Endpoint**: `https://ethio-cyber-shield.onrender.com/api/events`  
+> **Official Monorepo**: [https://github.com/Rammiso/ethio-cybershield](https://github.com/Rammiso/ethio-cybershield)
 
 ---
 
