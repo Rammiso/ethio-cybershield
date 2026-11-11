@@ -10,7 +10,12 @@
 !.env.example
 deploy/.env.example
 core/.env.example
-
+team_tasks/
+team_task/
+graphify-out/
+.claude/
+CyberProof_ET_Concept_Note_BiT.docx
+TEAM_ROLES_AND_5MIN_DEMO_MASTER_GUIDE.md
 # 2. Python & Virtual Environments
 **/venv/
 **/.venv/

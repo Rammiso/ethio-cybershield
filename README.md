@@ -223,6 +223,14 @@ Designed specifically for the Ethiopian operating environment:
 
 ## 6. Verification & Automated Testing
 
+### Financial Mule Ring & Graph Intelligence Live Verification
+Execute the official 7-stage demonstration runner verifying Johnson's cycle detection, sub-threshold micro-smurfing detection, and autonomous multi-account containment compliant with **NBE Directive SBB/84/2022** and **INSA Proclamation No. 1426/2026**:
+```bash
+cd Ethio-Cyber-Shield/core
+PYTHONPATH=. python verify_mule_ring_detection.py
+PYTHONPATH=. python -m unittest tests/test_part32_mule_ring_graph_engine.py -v
+```
+
 ### ECS Core Test Suites (Unit & Multi-Tenancy Isolation)
 ```bash
 cd Ethio-Cyber-Shield/core
