@@ -66,3 +66,4 @@ Thumbs.db
 # 6. Logs & Runtime Dumps
 logs/
 *.log
+uv.lock
